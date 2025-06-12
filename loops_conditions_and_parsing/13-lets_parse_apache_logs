@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# This script parses an Apache access log and prints IP address with HTTP status code
+
+awk '{print $1, $9}' apache-access.log
