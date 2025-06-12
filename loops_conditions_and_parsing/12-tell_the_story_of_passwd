@@ -1,8 +1,7 @@
-#!/usr/bin/env bash
-# This script tells a story about each user in /etc/passwd using while loop and IFS
+#!/bin/bash
 
 i=0
-while IFS=":" read -r username password userid groupid userinfo homedir shell; do
-    echo "The user $username is part of the $groupid gang, lives in $homedir and rides $shell. $i's place is protected by the passcode $password, more info about the user here: $userinfo"
-    i=$((i + 1))
+while IFS=: read -r username password uid gid gecos homedir shell; do
+    echo "The user $username is part of the $gid gang, lives in $homedir and rides $shell. $i's place is protected by the passcode $password, more info about the user here: $gecos"
+    i=$((i+1))
 done < /etc/passwd
