@@ -1,2 +1,2 @@
-#!usr/bin/env bash
+#!/usr/bin/env bash
 ps -e -o user,pid,ppid,cmd --forest
