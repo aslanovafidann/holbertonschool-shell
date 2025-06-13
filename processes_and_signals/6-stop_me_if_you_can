@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Stops the 4-to_infinity_and_beyond process using bash builtin kill (not /bin/kill)
+
+pid=$(ps -eo pid,cmd | grep '[4]-to_infinity_and_beyond' | awk '{print $1}')
+[[ -n "$pid" ]] && builtin kill "$pid"`
