@@ -1,13 +1,4 @@
 #!/usr/bin/env bash
-# This script stops the 4-to_infinity_and_beyond process without using kill or killall
+# This script stops the 4-to_infinity_and_beyond process by creating a stop file
 
-for pid in $(ls /proc | grep -E '^[0-9]+$'); do
-  if [ -r "/proc/$pid/cmdline" ]; then
-    cmdline=$(tr '\0' ' ' < "/proc/$pid/cmdline")
-    if echo "$cmdline" | grep -q "./4-to_infinity_and_beyond"; then
-      exec 3>/proc/"$pid"/fd/0
-      echo "exit" >&3
-      break
-    fi
-  fi
-done
+touch /tmp/stop_infinity
