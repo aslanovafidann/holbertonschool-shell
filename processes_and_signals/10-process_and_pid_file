@@ -1,17 +1,16 @@
 #!/usr/bin/env bash
-# This script writes its PID to /tmp/myscript.pid and handles various signals
+# This script writes its PID to /var/run/myscript.pid or /tmp/myscript.pid if permission denied
 
-PID_FILE="/tmp/myscript.pid"
+PID_FILE="/var/run/myscript.pid"
+if ! echo "$$" > "$PID_FILE" 2>/dev/null; then
+  PID_FILE="/tmp/myscript.pid"
+  echo "$$" > "$PID_FILE"
+fi
 
-# Write PID to file
-echo "$$" > "$PID_FILE"
-
-# Trap signals
 trap 'echo "Y U no love me?!"' SIGINT
 trap 'echo "I hate the kill command"; rm -f "$PID_FILE"; exit' SIGTERM
 trap 'rm -f "$PID_FILE"; exit' SIGQUIT
 
-# Infinite loop
 while true; do
   echo "To infinity and beyond"
   sleep 2
