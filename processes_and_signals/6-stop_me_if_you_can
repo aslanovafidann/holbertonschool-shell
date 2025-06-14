@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
-# This script prints "To infinity and beyond" every second until a stop file exists
+# This script stops the 4-to_infinity_and_beyond process without using kill or killall
 
-while [ ! -f /tmp/stop_infinity ]; do
-  echo "To infinity and beyond"
-  sleep 1
+for pid in $(ls /proc | grep -E '^[0-9]+$'); do
+  if [ -r "/proc/$pid/cmdline" ]; then
+    cmdline=$(tr '\0' ' ' < "/proc/$pid/cmdline")
+    if echo "$cmdline" | grep -q "./4-to_infinity_and_beyond"; then
+      exec 3>/proc/"$pid"/fd/0
+      echo "exit" >&3
+      break
+    fi
+  fi
 done
